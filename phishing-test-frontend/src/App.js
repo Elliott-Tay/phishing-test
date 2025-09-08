@@ -2,10 +2,12 @@ import { useEffect } from "react";
 import axios from "axios";
 
 function App() {
+
+  const API_URL = process.env.REACT_APP_API_URL || "";
   useEffect(() => {
     const logVisit = async () => {
       try {
-        await axios.post("http://localhost:5000/log-visit", {
+        await axios.post(`${process.env.BACKEND}/log-visit`, {
           url: window.location.href,
           referrer: document.referrer,
           userAgent: navigator.userAgent,
