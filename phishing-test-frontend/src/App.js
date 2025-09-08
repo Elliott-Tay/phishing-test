@@ -3,11 +3,11 @@ import axios from "axios";
 
 function App() {
 
-  const API_URL = process.env.REACT_APP_API_URL || "";
   useEffect(() => {
     const logVisit = async () => {
       try {
-        await axios.post(`${process.env.BACKEND}/log-visit`, {
+        const API_URL = process.env.REACT_APP_API_URL || "";
+        await axios.post(`${API_URL}/log-visit`, {
           url: window.location.href,
           referrer: document.referrer,
           userAgent: navigator.userAgent,
