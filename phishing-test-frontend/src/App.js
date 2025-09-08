@@ -6,7 +6,7 @@ function App() {
   useEffect(() => {
     const logVisit = async () => {
       try {
-        const API_URL = process.env.REACT_APP_API_URL || "";
+        const API_URL = process.env.REACT_APP_API_URL || "https://phishing-test-96hg.onrender.com";
         await axios.post(`${API_URL}/log-visit`, {
           url: window.location.href,
           referrer: document.referrer,
