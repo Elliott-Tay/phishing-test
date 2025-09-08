@@ -3,12 +3,17 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// ES module __dirname fix
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
@@ -53,10 +58,11 @@ app.post("/log-visit", async (req, res) => {
 });
 
 // Serve React frontend (monorepo setup)
-const frontendBuildPath = path.join(__dirname, "../phishing-test-frontend/build");
+const frontendBuildPath = path.resolve(__dirname, "../phishing-test-frontend/build");
 app.use(express.static(frontendBuildPath));
 
-app.get("*", (req, res) => {
+// Catch-all route for React (regex works better with ES modules)
+app.get(/^\/.*$/, (req, res) => {
   res.sendFile(path.join(frontendBuildPath, "index.html"));
 });
 
